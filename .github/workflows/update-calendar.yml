@@ -1,0 +1,45 @@
+name: Stundenplan-Update
+
+on:
+  schedule:
+    # Alle 2 Stunden um :23 (GitHub nutzt UTC).
+    # Zum Ändern des Intervalls einfach den cron-Ausdruck anpassen.
+    - cron: "23 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-calendar
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Stundenplan abrufen
+        env:
+          WEBUNTIS_SERVER: ${{ secrets.WEBUNTIS_SERVER }}
+          WEBUNTIS_SCHOOL: ${{ secrets.WEBUNTIS_SCHOOL }}
+          WEBUNTIS_USER: ${{ secrets.WEBUNTIS_USER }}
+          WEBUNTIS_PASSWORD: ${{ secrets.WEBUNTIS_PASSWORD }}
+        run: python3 main.py
+
+      - name: calendar.ics committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add calendar.ics
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen am Stundenplan."
+          else
+            git commit -m "Stundenplan aktualisiert [skip ci]"
+            git push
+          fi
