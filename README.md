@@ -91,6 +91,8 @@ https://raw.githubusercontent.com/<GitHub-User>/<Repo>/main/calendar.ics
 
 - **Vertretungen/Ausfälle:** ausgefallene Stunden erscheinen als
   `[Ausfall] …` und werden im Mac-Kalender durchgestrichen angezeigt.
+- **Prüfungen:** Einträge mit `lstype`/`code` `EXAM` erscheinen als
+  `[Prüfung] …` im Titel.
 - **Zeitzone:** WebUntis liefert lokale Schulzeiten; die .ics nutzt
   "floating" Zeiten, dein Kalender interpretiert sie in deiner Zeitzone.
 - **Privatsphäre:** `calendar.ics` enthält deinen persönlichen Stundenplan
@@ -106,7 +108,6 @@ https://raw.githubusercontent.com/<GitHub-User>/<Repo>/main/calendar.ics
 
 ## Erweiterungsideen
 
-- Prüfungen (`lstype` / `code`) im Titel kennzeichnen
 - Fächer nach eigenem Schema umbenennen
 - Erinnerungen (Alarm) vor Stundenanfang setzen
 

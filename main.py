@@ -147,10 +147,13 @@ def event_lines(period, master, stamp):
     rooms = lookup(period, "ro", master, prefer_long=False)
 
     cancelled = period.get("code") == "CANCELLED"
+    exam = period.get("lstype") == "EXAM" or period.get("code") == "EXAM"
     info = (period.get("info") or "").strip()
     subst = (period.get("substText") or "").strip()
 
     summary = ", ".join(subjects) or info or "Unterricht"
+    if exam:
+        summary = "[Prüfung] " + summary
     if cancelled:
         summary = "[Ausfall] " + summary
 
